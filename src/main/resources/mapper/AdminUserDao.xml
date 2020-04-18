@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lucius.dao.AdminUserDao">
+
+    <resultMap type="com.lucius.entity.AdminUser" id="AdminUserMap">
+        <result property="adminUserId" column="admin_user_id" jdbcType="INTEGER"/>
+        <result property="loginUserName" column="login_user_name" jdbcType="VARCHAR"/>
+        <result property="loginPassword" column="login_password" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="locked" column="locked" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AdminUserMap">
+        select
+          admin_user_id, login_user_name, login_password, nick_name, locked
+        from myblog.admin_user
+        where admin_user_id = #{adminUserId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByUserName" resultMap="AdminUserMap">
+        select
+          admin_user_id, login_user_name, login_password, nick_name, locked
+        from myblog.admin_user
+        where login_user_name = #{loginUserName}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AdminUserMap">
+        select
+          admin_user_id, login_user_name, login_password, nick_name, locked
+        from myblog.admin_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AdminUserMap">
+        select
+          admin_user_id, login_user_name, login_password, nick_name, locked
+        from myblog.admin_user
+        <where>
+            <if test="adminUserId != null">
+                and admin_user_id = #{adminUserId}
+            </if>
+            <if test="loginUserName != null and loginUserName != ''">
+                and login_user_name = #{loginUserName}
+            </if>
+            <if test="loginPassword != null and loginPassword != ''">
+                and login_password = #{loginPassword}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="locked != null">
+                and locked = #{locked}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="adminUserId" useGeneratedKeys="true">
+        insert into myblog.admin_user(login_user_name, login_password, nick_name, locked)
+        values (#{loginUserName}, #{loginPassword}, #{nickName}, #{locked})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update myblog.admin_user
+        <set>
+            <if test="loginUserName != null and loginUserName != ''">
+                login_user_name = #{loginUserName},
+            </if>
+            <if test="loginPassword != null and loginPassword != ''">
+                login_password = #{loginPassword},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="locked != null">
+                locked = #{locked},
+            </if>
+        </set>
+        where admin_user_id = #{adminUserId}
+    </update>
+
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from myblog.admin_user where admin_user_id = #{adminUserId}
+    </delete>
+
+</mapper>
