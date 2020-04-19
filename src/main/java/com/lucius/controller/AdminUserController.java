@@ -176,10 +176,11 @@ public class AdminUserController {
     }
 
     @GetMapping("/admin/logout")
-    public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("loginUserId");
-        request.getSession().removeAttribute("loginUser");
-        request.getSession().removeAttribute("errorMsg");
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
+        }
         return "admin/login";
     }
 }

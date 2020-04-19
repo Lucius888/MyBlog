@@ -49,11 +49,12 @@ public class ShiroConfig {
 
         filterMap.put("/admin/index", "authc");
         filterMap.put("/admin/profile/**", "authc");
+        filterMap.put("/admin/configurations/**", "authc");
 
         // druid数据源监控页面不拦截
         filterMap.put("/druid/**", "anon");
         // 配置退出过滤器，其中具体的退出代码Shiro已经替我们实现了
-        filterMap.put("/logout", "logout");
+//        filterMap.put("/admin/logout", "logout");
 
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);

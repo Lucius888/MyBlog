@@ -18,7 +18,6 @@ $(function () {
                     } else {
                         alert('修改失败');
                         $("#updateUserNameButton").attr("disabled",false);
-
                     }
                 }
             });
