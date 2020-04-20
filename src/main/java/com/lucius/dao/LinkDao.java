@@ -70,4 +70,17 @@ public interface LinkDao {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询所有链接
+     *
+     */
+    List<Link> getLinkList();
+
+
+    /**
+     * 删除选中链接
+     *
+     */
+    int deleteBatch(Integer[] ids);
 }

@@ -49,9 +49,8 @@ public class LinkServiceImpl implements LinkService {
      * @return 实例对象
      */
     @Override
-    public Link insert(Link link) {
-        this.linkDao.insert(link);
-        return link;
+    public boolean insert(Link link) {
+        return this.linkDao.insert(link)>0;
     }
 
     /**
@@ -76,9 +75,30 @@ public class LinkServiceImpl implements LinkService {
     public boolean deleteById(Integer linkId) {
         return this.linkDao.deleteById(linkId) > 0;
     }
-
+    /**
+     * 获取链接总数
+     *
+     */
     @Override
     public int getTotalNum() {
         return this.linkDao.getTotalNum();
     }
+    /**
+     * 获取全部连接
+     *
+     */
+    @Override
+    public List<Link> getLinkList() {
+        return this.linkDao.getLinkList();
+    }
+    /**
+     * 删除选中链接
+     *
+     */
+    @Override
+    public boolean deleteBatch(Integer[] ids) {
+        return linkDao.deleteBatch(ids) > 0;
+    }
+
+
 }

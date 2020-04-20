@@ -64,8 +64,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="linkId" useGeneratedKeys="true">
-        insert into myblog.link(link_type, link_name, link_url, link_description, link_rank, is_deleted, create_time)
-        values (#{linkType}, #{linkName}, #{linkUrl}, #{linkDescription}, #{linkRank}, #{isDeleted}, #{createTime})
+        insert into myblog.link(link_type, link_name, link_url, link_description, link_rank)
+        values (#{linkType}, #{linkName}, #{linkUrl}, #{linkDescription}, #{linkRank})
     </insert>
 
     <!--通过主键修改数据-->
@@ -102,9 +102,26 @@
         delete from myblog.link where link_id = #{linkId}
     </delete>
 
-    <!--获取链接-->
+    <!--获取链接总数-->
     <select id="getTotalNum" parameterType="Map" resultType="int">
         select count(*)  from myblog.link
         where is_deleted=0
     </select>
+
+    <!--获取全部链接-->
+    <select id="getLinkList" resultMap="LinkMap">
+        select * from myblog.link
+        where is_deleted=0
+    </select>
+
+
+    <!--删除选中-->
+    <update id="deleteBatch">
+        update myblog.link
+        set is_deleted=1 where link_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
 </mapper>

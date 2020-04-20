@@ -1,6 +1,7 @@
 package com.lucius.service;
 
 import com.lucius.entity.Link;
+
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public interface LinkService {
      * @param link 实例对象
      * @return 实例对象
      */
-    Link insert(Link link);
+    boolean insert(Link link);
 
     /**
      * 修改数据
@@ -58,4 +59,16 @@ public interface LinkService {
      * @return 影响行数
      */
     int getTotalNum();
+    /**
+     * 查询链接总数
+     *
+     * @return 影响行数
+     */
+    List<Link> getLinkList();
+
+    /**
+     * 删除选中链接
+     *
+     */
+    boolean deleteBatch(Integer[] ids);
 }

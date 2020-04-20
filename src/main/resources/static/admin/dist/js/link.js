@@ -21,15 +21,14 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader: {
-            root: "data.list",
-            page: "data.currPage",
-            total: "data.totalPage",
-            records: "data.totalCount"
+            root: "list",
+            page: "currPage",
+            total: "totalPage",
+            records: "totalCount"
         },
         prmNames: {
             page: "page",
             rows: "limit",
-            order: "order",
         },
         gridComplete: function () {
             //隐藏grid底部滚动条
