@@ -34,7 +34,7 @@ public interface BlogCategoryService {
      * @param blogCategory 实例对象
      * @return 实例对象
      */
-    BlogCategory insert(BlogCategory blogCategory);
+    boolean insert(BlogCategory blogCategory);
 
     /**
      * 修改数据
@@ -57,4 +57,16 @@ public interface BlogCategoryService {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询全部分类
+     *
+     * @return 影响行数
+     */
+    List<BlogCategory> getCategoryList();
+    /**
+     * 删除选中分类
+     *
+     */
+    boolean deleteBatch(Integer[] ids);
 }

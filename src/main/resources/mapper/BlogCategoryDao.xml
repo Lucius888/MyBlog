@@ -56,8 +56,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true">
-        insert into myblog.blog_category(category_name, category_icon, category_rank, is_deleted, create_time)
-        values (#{categoryName}, #{categoryIcon}, #{categoryRank}, #{isDeleted}, #{createTime})
+        insert into myblog.blog_category(category_name, category_icon)
+        values (#{categoryName}, #{categoryIcon})
     </insert>
 
     <!--通过主键修改数据-->
@@ -93,4 +93,20 @@
     select count(*)  from myblog.blog_category
     where is_deleted=0
     </select>
+
+    <!--获取全部链接-->
+    <select id="getCategoryList" resultMap="BlogCategoryMap">
+        select * from myblog.blog_category
+        where is_deleted=0
+    </select>
+
+    <!--删除选中-->
+    <update id="deleteBatch">
+        update myblog.blog_category
+        set is_deleted=1 where category_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
 </mapper>

@@ -49,9 +49,9 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
      * @return 实例对象
      */
     @Override
-    public BlogCategory insert(BlogCategory blogCategory) {
-        this.blogCategoryDao.insert(blogCategory);
-        return blogCategory;
+    public boolean insert(BlogCategory blogCategory) {
+
+        return this.blogCategoryDao.insert(blogCategory)>0;
     }
 
     /**
@@ -80,5 +80,15 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
     @Override
     public int getTotalNum() {
         return this.blogCategoryDao.getTotalNum();
+    }
+
+    @Override
+    public List<BlogCategory> getCategoryList() {
+        return this.blogCategoryDao.getCategoryList();
+    }
+
+    @Override
+    public boolean deleteBatch(Integer[] ids) {
+        return this.blogCategoryDao.deleteBatch(ids)>0;
     }
 }

@@ -71,4 +71,15 @@ public interface BlogCategoryDao {
      */
     int getTotalNum();
 
+    /**
+     * 查询所有分类
+     *
+     */
+    List<BlogCategory> getCategoryList();
+
+    /**
+     * 删除选中分类
+     *
+     */
+    int deleteBatch(Integer[] ids);
 }
