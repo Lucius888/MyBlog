@@ -3,7 +3,7 @@ package com.lucius.util;
 import org.springframework.util.StringUtils;
 
 /**
- * 响应结果生成工具
+ * 响应结果生成工具，返回响应代码和数据
  */
 public class ResultGenerator {
     private static final String DEFAULT_SUCCESS_MESSAGE = "SUCCESS";

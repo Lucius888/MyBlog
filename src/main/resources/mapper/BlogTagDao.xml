@@ -46,10 +46,10 @@
         </where>
     </select>
 
-    <!--新增所有列-->
+    <!--新增标签-->
     <insert id="insert" keyProperty="tagId" useGeneratedKeys="true">
-        insert into myblog.blog_tag(tag_name, is_deleted, create_time)
-        values (#{tagName}, #{isDeleted}, #{createTime})
+        insert into myblog.blog_tag(tag_name)
+        values (#{tagName})
     </insert>
 
     <!--通过主键修改数据-->
@@ -79,4 +79,26 @@
     select count(*)  from myblog.blog_tag
     where is_deleted=0
   </select>
+
+    <!--获取全部标签-->
+    <select id="getTagList" resultMap="BlogTagMap">
+        select * from myblog.blog_tag
+        where is_deleted=0
+    </select>
+
+    <!--通过标签名获取Tag-->
+    <select id="selectByTagName" parameterType="java.lang.String" resultMap="BlogTagMap">
+        select * from myblog.blog_tag
+        where tag_name = #{tagName} AND is_deleted = 0
+    </select>
+
+    <!--批量删除Tag-->
+    <update id="deleteBatch">
+        update myblog.blog_tag
+        set is_deleted=1 where tag_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
 </mapper>

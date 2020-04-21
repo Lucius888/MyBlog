@@ -70,4 +70,22 @@ public interface BlogTagDao {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询所有链接
+     *
+     */
+    List<BlogTag> getTagList();
+
+    /**
+     * 通过TagName查询单条数据
+     *
+     */
+    BlogTag selectByTagName(String TagName);
+
+    /**
+     * 删除所选的Tag
+     *
+     */
+    int deleteBatch(int[] ids);
 }

@@ -58,4 +58,21 @@ public interface BlogTagService {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询标签总数
+     *
+     */
+    List<BlogTag> getTagList();
+    /**
+     * 保存标签
+     *
+     */
+    boolean saveTag(String tagName);
+
+    /**
+     * 删除所选标签
+     *
+     */
+    boolean deleteBatch(int[] ids);
 }

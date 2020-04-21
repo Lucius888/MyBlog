@@ -43,7 +43,6 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("执行了认证");
         // 获取用户输入的用户名
         // 获取用户输入的用户名和密码
         String userName = (String) token.getPrincipal();

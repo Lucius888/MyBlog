@@ -1,11 +1,14 @@
 package com.lucius.service.impl;
 
+import com.lucius.dao.BlogTagRelationDao;
 import com.lucius.entity.BlogTag;
 import com.lucius.dao.BlogTagDao;
 import com.lucius.service.BlogTagService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +21,9 @@ import java.util.List;
 public class BlogTagServiceImpl implements BlogTagService {
     @Resource
     private BlogTagDao blogTagDao;
+
+    @Resource
+    private BlogTagRelationDao blogTagRelationDao;
 
     /**
      * 通过ID查询单条数据
@@ -80,5 +86,32 @@ public class BlogTagServiceImpl implements BlogTagService {
     @Override
     public int getTotalNum() {
         return this.blogTagDao.getTotalNum();
+    }
+
+    @Override
+    public List<BlogTag> getTagList() {
+        return this.blogTagDao.getTagList();
+    }
+
+    @Override
+    public boolean saveTag(String tagName) {
+        BlogTag temp = blogTagDao.selectByTagName(tagName);
+        if (temp == null) {
+            BlogTag blogTag = new BlogTag();
+            blogTag.setTagName(tagName);
+            return blogTagDao.insert(blogTag) > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteBatch(int[] ids) {
+        //已存在关联关系不删除
+        List<Long> relations = blogTagRelationDao.selectDistinctTagIds(ids);
+        if (!CollectionUtils.isEmpty(relations)) {
+            return false;
+        }
+        //删除tag
+        return blogTagDao.deleteBatch(ids) > 0;
     }
 }

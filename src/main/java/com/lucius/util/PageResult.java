@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页工具类
+ * 分页信息返回工具类
  */
 public class PageResult implements Serializable {
 
