@@ -70,4 +70,23 @@ public interface BlogCommentDao {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询所有链接
+     *
+     */
+    List<BlogComment> getCommentList();
+
+
+    /**
+     * 删除选中链接
+     *
+     */
+    int deleteBatch(Integer[] ids);
+
+    /**
+     * 评论批量审核
+     *
+     */
+    int checkDone(Integer[] ids);
 }

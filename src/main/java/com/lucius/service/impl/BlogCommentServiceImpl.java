@@ -6,6 +6,7 @@ import com.lucius.service.BlogCommentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,5 +81,32 @@ public class BlogCommentServiceImpl implements BlogCommentService {
     @Override
     public int getTotalNum() {
         return this.blogCommentDao.getTotalNum();
+    }
+
+    @Override
+    public List<BlogComment> getCommentList() {
+        return this.blogCommentDao.getCommentList();
+    }
+
+    @Override
+    public boolean deleteBatch(Integer[] ids) {
+        return this.blogCommentDao.deleteBatch(ids)>0;
+    }
+
+    @Override
+    public Boolean checkDone(Integer[] ids) {
+        return blogCommentDao.checkDone(ids) > 0;
+    }
+
+    @Override
+    public Boolean reply(Long commentId, String replyBody) {
+        BlogComment blogComment = blogCommentDao.queryById(commentId);
+        //blogComment不为空且状态为已审核，则继续后续操作
+        if (blogComment != null && Integer.parseInt(String.valueOf(blogComment.getCommentStatus()))==1) {
+            blogComment.setReplyBody(replyBody);
+            blogComment.setReplyCreateTime(new Date());
+            return blogCommentDao.update(blogComment) > 0;
+        }
+        return false;
     }
 }

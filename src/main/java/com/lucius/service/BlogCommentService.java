@@ -57,4 +57,34 @@ public interface BlogCommentService {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询全部评论
+     *
+     * @return 影响行数
+     */
+    List<BlogComment> getCommentList();
+
+    /**
+     * 删除选中评论
+     *
+     */
+    boolean deleteBatch(Integer[] ids);
+
+    /**
+     * 批量审核
+     *
+     * @param ids
+     * @return
+     */
+    Boolean checkDone(Integer[] ids);
+
+    /**
+     * 添加回复
+     *
+     * @param commentId
+     * @param replyBody
+     * @return
+     */
+    Boolean reply(Long commentId, String replyBody);
 }

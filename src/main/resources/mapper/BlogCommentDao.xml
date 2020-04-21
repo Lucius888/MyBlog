@@ -141,4 +141,28 @@
             AND comment_status = #{commentStatus}
         </if>
     </select>
+
+    <!--获取全部评论-->
+    <select id="getCommentList" resultMap="BlogCommentMap">
+        select * from myblog.blog_comment
+        where is_deleted=0
+    </select>
+    <!--批量删除-->
+    <update id="deleteBatch">
+        update myblog.blog_comment
+        set is_deleted=1 where comment_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--批量审核-->
+    <update id="checkDone">
+        update myblog.blog_comment
+        set comment_status=1 where comment_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and comment_status = 0
+    </update>
 </mapper>
