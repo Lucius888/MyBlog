@@ -88,4 +88,9 @@ public interface BlogTagDao {
      *
      */
     int deleteBatch(int[] ids);
+    /**
+     * 批量插入Tag
+     *
+     */
+    int batchInsertBlogTag(List<BlogTag> tagList);
 }

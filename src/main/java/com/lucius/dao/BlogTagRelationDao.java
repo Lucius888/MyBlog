@@ -66,4 +66,9 @@ public interface BlogTagRelationDao {
 
     List<Long> selectDistinctTagIds(int[] tagIds);
 
+    /**
+     * 批量插入
+     */
+    int batchInsert(@Param("relationList") List<BlogTagRelation> blogTagRelationList);
+
 }

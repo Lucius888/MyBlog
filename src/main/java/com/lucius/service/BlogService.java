@@ -58,4 +58,32 @@ public interface BlogService {
      * @return 影响行数
      */
     int getTotalNum();
+
+    /**
+     * 查询链接总数
+     *
+     * @return 影响行数
+     */
+    List<Blog> getBlogList();
+
+    /**
+     * 删除选中链接
+     *
+     */
+    boolean deleteBatch(Integer[] ids);
+
+    /**
+     * 保存博客
+     *
+     */
+    String saveBlog(Blog blog);
+
+
+    /**
+     * 后台修改
+     *
+     * @param blog
+     * @return
+     */
+    String updateBlog(Blog blog);
 }

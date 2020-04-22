@@ -53,7 +53,8 @@ public class ShiroConfig {
         filterMap.put("/admin/links/**", "authc");
         filterMap.put("/admin/tags/**", "authc");
         filterMap.put("/admin/categories/**", "authc");
-        filterMap.put("/admin/comments/**", "authc");
+        filterMap.put("/admin/comments/*blogs*", "authc");
+        filterMap.put("/admin/blogs/**", "authc");
 
         // druid数据源监控页面不拦截
         filterMap.put("/druid/**", "anon");

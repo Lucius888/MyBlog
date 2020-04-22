@@ -71,4 +71,21 @@ public interface BlogDao {
      */
     int getTotalNum();
 
+    /**
+     * 查询所有博客
+     *
+     */
+    List<Blog> getBlogList();
+
+
+    /**
+     * 删除选中博客
+     *
+     */
+    int deleteBatch(Integer[] ids);
+
+    /**
+     * 保存发布的文章
+     */
+    int insertSelective(Blog record);
 }

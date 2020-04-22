@@ -94,7 +94,7 @@
     where is_deleted=0
     </select>
 
-    <!--获取全部链接-->
+    <!--获取全部分类-->
     <select id="getCategoryList" resultMap="BlogCategoryMap">
         select * from myblog.blog_category
         where is_deleted=0
