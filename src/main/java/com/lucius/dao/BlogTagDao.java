@@ -1,6 +1,7 @@
 package com.lucius.dao;
 
 import com.lucius.entity.BlogTag;
+import com.lucius.entity.BlogTagCount;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -93,4 +94,9 @@ public interface BlogTagDao {
      *
      */
     int batchInsertBlogTag(List<BlogTag> tagList);
+    /**
+     * 为前台需要展示的Tag
+     * 其实这些为了前台数据展示的东西可以使用中台 dto 来进行实现
+     */
+    List<BlogTagCount> getTagCount();
 }

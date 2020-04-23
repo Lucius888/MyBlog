@@ -88,4 +88,8 @@ public interface BlogDao {
      * 保存发布的文章
      */
     int insertSelective(Blog record);
+    /**
+     * 通过类型查找文章
+     */
+    List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
 }

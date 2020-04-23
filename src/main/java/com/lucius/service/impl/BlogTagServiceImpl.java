@@ -3,6 +3,7 @@ package com.lucius.service.impl;
 import com.lucius.dao.BlogTagRelationDao;
 import com.lucius.entity.BlogTag;
 import com.lucius.dao.BlogTagDao;
+import com.lucius.entity.BlogTagCount;
 import com.lucius.service.BlogTagService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -113,5 +114,10 @@ public class BlogTagServiceImpl implements BlogTagService {
         }
         //删除tag
         return blogTagDao.deleteBatch(ids) > 0;
+    }
+
+    @Override
+    public List<BlogTagCount> getBlogTagCountForIndex() {
+        return blogTagDao.getTagCount();
     }
 }

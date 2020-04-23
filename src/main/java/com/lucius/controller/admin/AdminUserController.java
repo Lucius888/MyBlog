@@ -1,4 +1,4 @@
-package com.lucius.controller;
+package com.lucius.controller.admin;
 
 import com.lucius.entity.AdminUser;
 import com.lucius.service.*;

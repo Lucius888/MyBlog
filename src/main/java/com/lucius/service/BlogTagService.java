@@ -1,6 +1,8 @@
 package com.lucius.service;
 
 import com.lucius.entity.BlogTag;
+import com.lucius.entity.BlogTagCount;
+
 import java.util.List;
 
 /**
@@ -75,4 +77,7 @@ public interface BlogTagService {
      *
      */
     boolean deleteBatch(int[] ids);
+
+
+    List<BlogTagCount> getBlogTagCountForIndex();
 }

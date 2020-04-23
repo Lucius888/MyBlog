@@ -82,4 +82,10 @@ public interface BlogCategoryDao {
      *
      */
     int deleteBatch(Integer[] ids);
+
+    /**
+     * 根据多id查询分类
+     *
+     */
+    List<BlogCategory> selectByCategoryIds(@Param("categoryIds") List<Integer> categoryIds);
 }

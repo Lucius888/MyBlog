@@ -3,6 +3,7 @@ package com.lucius.service;
 import com.lucius.entity.Link;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Link)表服务接口
@@ -71,4 +72,11 @@ public interface LinkService {
      *
      */
     boolean deleteBatch(Integer[] ids);
+
+    /**
+     * 返回友链页面所需的所有数据
+     *
+     * @return
+     */
+    Map<Byte, List<Link>> getLinksForLinkPage();
 }

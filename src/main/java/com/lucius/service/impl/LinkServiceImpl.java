@@ -4,9 +4,12 @@ import com.lucius.entity.Link;
 import com.lucius.dao.LinkDao;
 import com.lucius.service.LinkService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * (Link)表服务实现类
@@ -98,6 +101,18 @@ public class LinkServiceImpl implements LinkService {
     @Override
     public boolean deleteBatch(Integer[] ids) {
         return linkDao.deleteBatch(ids) > 0;
+    }
+
+    @Override
+    public Map<Byte, List<Link>> getLinksForLinkPage() {
+        //获取所有链接数据
+        List<Link> links = linkDao.getLinkList();
+        if (!CollectionUtils.isEmpty(links)) {
+            //根据type进行分组
+            Map<Byte, List<Link>> linksMap = links.stream().collect(Collectors.groupingBy(Link::getLinkType));
+            return linksMap;
+        }
+        return null;
     }
 
 

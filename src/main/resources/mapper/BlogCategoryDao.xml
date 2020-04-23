@@ -11,6 +11,10 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <sql id="Base_Column_List">
+        category_id, category_name, category_icon, category_rank, is_deleted, create_time
+    </sql>
+
     <!--查询单个-->
     <select id="queryById" resultMap="BlogCategoryMap">
         select
@@ -108,5 +112,17 @@
             #{id}
         </foreach>
     </update>
+
+
+    <select id="selectByCategoryIds" resultMap="BlogCategoryMap">
+        select
+        <include refid="Base_Column_List"/>
+        from myblog.blog_category
+        where category_id IN
+        <foreach collection="categoryIds" item="item" index="index"
+                 open="(" separator="," close=")">#{item}
+        </foreach>
+        AND is_deleted = 0
+    </select>
 
 </mapper>

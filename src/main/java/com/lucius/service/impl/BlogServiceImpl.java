@@ -1,5 +1,10 @@
 package com.lucius.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lucius.controller.vo.BlogDetailVO;
+import com.lucius.controller.vo.BlogListVO;
+import com.lucius.controller.vo.SimpleBlogListVO;
 import com.lucius.dao.BlogCategoryDao;
 import com.lucius.dao.BlogTagDao;
 import com.lucius.dao.BlogTagRelationDao;
@@ -9,13 +14,18 @@ import com.lucius.entity.BlogCategory;
 import com.lucius.entity.BlogTag;
 import com.lucius.entity.BlogTagRelation;
 import com.lucius.service.BlogService;
+import com.lucius.util.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * (Blog)表服务实现类
@@ -36,6 +46,8 @@ public class BlogServiceImpl implements BlogService {
 
     @Resource
     private BlogTagRelationDao blogTagRelationDao;
+
+
 
 
     /**
@@ -236,5 +248,83 @@ public class BlogServiceImpl implements BlogService {
             return "success";
         }
         return "修改失败";
+    }
+
+    @Override
+    public PageResult getBlogsForIndexPage(int page) {
+
+        //当前页page，设置每页8条
+        PageHelper.startPage(page, 8);
+        List<Blog> blogList = blogDao.getBlogList();
+        PageInfo<Blog> pageInfo = new PageInfo(blogList);
+        List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+        PageResult pageResult = new PageResult(blogListVOS, (int) pageInfo.getTotal(), pageInfo.getPageSize(), pageInfo.getPageNum());
+        return pageResult;
+    }
+
+    @Override
+    public List<SimpleBlogListVO> getBlogListForIndexPage(int type) {
+        List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
+        List<Blog> blogs = blogDao.findBlogListByType(type, 9);
+        if (!CollectionUtils.isEmpty(blogs)) {
+            for (Blog blog : blogs) {
+                SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+                BeanUtils.copyProperties(blog, simpleBlogListVO);
+                simpleBlogListVOS.add(simpleBlogListVO);
+            }
+        }
+        return simpleBlogListVOS;
+    }
+
+    @Override
+    public BlogDetailVO getBlogDetail(Long blogId) {
+        return null;
+    }
+
+    @Override
+    public PageResult getBlogsPageByTag(String tagName, int page) {
+        return null;
+    }
+
+    @Override
+    public PageResult getBlogsPageByCategory(String categoryId, int page) {
+        return null;
+    }
+
+    @Override
+    public PageResult getBlogsPageBySearch(String keyword, int page) {
+        return null;
+    }
+
+    @Override
+    public BlogDetailVO getBlogDetailBySubUrl(String subUrl) {
+        return null;
+    }
+
+    private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {
+        List<BlogListVO> blogListVOS = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(blogList)) {
+            List<Integer> categoryIds = blogList.stream().map(Blog::getBlogCategoryId).collect(Collectors.toList());
+            Map<Integer, String> blogCategoryMap = new HashMap<>();
+            if (!CollectionUtils.isEmpty(categoryIds)) {
+                List<BlogCategory> blogCategories = blogCategoryDao.selectByCategoryIds(categoryIds);
+                if (!CollectionUtils.isEmpty(blogCategories)) {
+                    blogCategoryMap = blogCategories.stream().collect(Collectors.toMap(BlogCategory::getCategoryId, BlogCategory::getCategoryIcon, (key1, key2) -> key2));
+                }
+            }
+            for (Blog blog : blogList) {
+                BlogListVO blogListVO = new BlogListVO();
+                BeanUtils.copyProperties(blog, blogListVO);
+                if (blogCategoryMap.containsKey(blog.getBlogCategoryId())) {
+                    blogListVO.setBlogCategoryIcon(blogCategoryMap.get(blog.getBlogCategoryId()));
+                } else {
+                    blogListVO.setBlogCategoryId(0);
+                    blogListVO.setBlogCategoryName("默认分类");
+                    blogListVO.setBlogCategoryIcon("/admin/dist/img/category/00.png");
+                }
+                blogListVOS.add(blogListVO);
+            }
+        }
+        return blogListVOS;
     }
 }
