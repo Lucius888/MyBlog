@@ -13,6 +13,10 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <sql id="Base_Column_List">
+        link_id, link_type, link_name, link_url, link_description, link_rank, is_deleted,
+        create_time
+    </sql>
     <!--查询单个-->
     <select id="queryById" resultMap="LinkMap">
         select
@@ -123,5 +127,17 @@
             #{id}
         </foreach>
     </update>
+
+
+    <select id="findLinkList" parameterType="Map" resultMap="LinkMap">
+        select
+        <include refid="Base_Column_List"/>
+        from myblog.link
+        where is_deleted=0
+        order by link_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
 
 </mapper>

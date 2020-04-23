@@ -106,7 +106,7 @@ public class LinkServiceImpl implements LinkService {
     @Override
     public Map<Byte, List<Link>> getLinksForLinkPage() {
         //获取所有链接数据
-        List<Link> links = linkDao.getLinkList();
+        List<Link> links = linkDao.findLinkList();
         if (!CollectionUtils.isEmpty(links)) {
             //根据type进行分组
             Map<Byte, List<Link>> linksMap = links.stream().collect(Collectors.groupingBy(Link::getLinkType));

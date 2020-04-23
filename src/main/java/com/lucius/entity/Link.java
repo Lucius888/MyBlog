@@ -18,7 +18,7 @@ public class Link implements Serializable {
     /**
     * 友链类别 0-友链 1-推荐 2-个人网站
     */
-    private Object linkType;
+    private Byte linkType;
     /**
     * 网站名称
     */
@@ -53,11 +53,11 @@ public class Link implements Serializable {
         this.linkId = linkId;
     }
 
-    public Object getLinkType() {
+    public Byte getLinkType() {
         return linkType;
     }
 
-    public void setLinkType(Object linkType) {
+    public void setLinkType(Byte linkType) {
         this.linkType = linkType;
     }
 

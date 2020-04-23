@@ -83,4 +83,6 @@ public interface LinkDao {
      *
      */
     int deleteBatch(Integer[] ids);
+
+    List<Link> findLinkList();
 }
