@@ -130,18 +130,6 @@
                             <input type="text" name="websiteUrl" id="websiteUrl" placeholder="你的网站地址(可不填)"
                                    class="form-control input-lg">
                         </div>
-                        <div class="col-md-6">
-                            <div class="col-md-4">
-                                <img alt="单击图片刷新！" class="pointer" style="margin-top: 15px; border-radius: 25px;"
-                                     th:src="@{/common/kaptcha}"
-                                     onclick="this.src='/common/kaptcha?d='+new Date()*1">
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control input-lg" name="verifyCode" id="verifyCode"
-                                       placeholder="(*必填)请输入验证码"
-                                       required="true">
-                            </div>
-                        </div>
                     </div>
                     <textarea rows="10" name="commentBody" id="commentBody" placeholder="(*必填)请输入你的评论"
                               class="form-control input-lg"></textarea>

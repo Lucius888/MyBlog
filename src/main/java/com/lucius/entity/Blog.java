@@ -30,7 +30,7 @@ public class Blog implements Serializable {
     /**
     * 博客内容
     */
-    private Object blogContent;
+    private String blogContent;
     /**
     * 博客分类id
     */
@@ -54,7 +54,7 @@ public class Blog implements Serializable {
     /**
     * 0-允许评论 1-不允许评论
     */
-    private Object enableComment;
+    private Byte enableComment;
     /**
     * 是否删除 0=否 1=是
     */
@@ -101,11 +101,11 @@ public class Blog implements Serializable {
         this.blogCoverImage = blogCoverImage;
     }
 
-    public Object getBlogContent() {
+    public String getBlogContent() {
         return blogContent;
     }
 
-    public void setBlogContent(Object blogContent) {
+    public void setBlogContent(String blogContent) {
         this.blogContent = blogContent;
     }
 
@@ -149,11 +149,11 @@ public class Blog implements Serializable {
         this.blogViews = blogViews;
     }
 
-    public Object getEnableComment() {
+    public Byte getEnableComment() {
         return enableComment;
     }
 
-    public void setEnableComment(Object enableComment) {
+    public void setEnableComment(Byte enableComment) {
         this.enableComment = enableComment;
     }
 

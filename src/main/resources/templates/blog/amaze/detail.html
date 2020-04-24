@@ -91,10 +91,9 @@
                 <th:block th:unless="${#strings.isEmpty(comment.replyBody)}">
                     <article class="comment reply">
                         <header class="clearfix">
-                            <img th:src="@{${configurations.get('yourAvatar')}}"
-                                 style="float: left;border-radius: 100px;width: 50px;">
+                            <img th:src="@{${configurations.get('yourAvatar')}}" class="avatar" >
                             <div class="meta2">
-                                <h3 th:text="${configurations.get('yourName')}">十三</h3>
+                                <h3 th:text="${configurations.get('yourName')}"></h3>
                                 <span class="date">
                                         回复时间： <th:block
                                         th:text="${#dates.format(comment.replyCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></th:block>
@@ -102,7 +101,7 @@
 
                             </div>
                         </header>
-                        <div class="reply-body">
+                        <div class="body">
                             <th:block th:text="${comment.replyBody}"></th:block>
                         </div>
                     </article>
@@ -139,6 +138,7 @@
             </ul>
         </th:block>
     </aside>
+
     <th:block th:if="${blogDetailVO.enableComment==0}">
         <aside class="create-comment" id="create-comment">
             <hr>
@@ -158,16 +158,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" name="websiteUrl" id="websiteUrl" placeholder="你的网站地址(可不填)">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input style="width:50%" type="text" name="verifyCode" id="verifyCode"
-                               placeholder="(*必填)请输入验证码">&nbsp;&nbsp;
-                        <img alt="单击图片刷新！" class="pointer" style="margin-top: 15px; border-radius: 25px;"
-                             th:src="@{/common/kaptcha}"
-                             onclick="this.src='/common/kaptcha?d='+new Date()*1">
+                        <input type="text" name="websiteUrl" id="websiteUrl" placeholder="(选填)你的网站地址">
                     </td>
                 </tr>
                 <tr>
@@ -196,6 +187,7 @@
 <script th:src="@{/blog/plugins/comment/comment.js}"></script>
 <!-- sweetalert -->
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+
 <script>
     $(function () {
         $("#back-top").hide();

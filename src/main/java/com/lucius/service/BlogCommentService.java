@@ -1,6 +1,8 @@
 package com.lucius.service;
 
 import com.lucius.entity.BlogComment;
+import com.lucius.util.PageResult;
+
 import java.util.List;
 
 /**
@@ -87,4 +89,21 @@ public interface BlogCommentService {
      * @return
      */
     Boolean reply(Long commentId, String replyBody);
+
+    /**
+     * 根据文章id和分页参数获取文章的评论列表
+     *
+     * @param blogId
+     * @param page
+     * @return
+     */
+    PageResult getCommentPageByBlogIdAndPageNum(Long blogId, int page);
+
+    /**
+     * 添加评论
+     *
+     * @param blogComment
+     * @return
+     */
+    Boolean addComment(BlogComment blogComment);
 }

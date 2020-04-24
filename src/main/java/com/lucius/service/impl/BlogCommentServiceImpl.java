@@ -1,13 +1,20 @@
 package com.lucius.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lucius.entity.Blog;
 import com.lucius.entity.BlogComment;
 import com.lucius.dao.BlogCommentDao;
 import com.lucius.service.BlogCommentService;
+import com.lucius.util.PageResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (BlogComment)表服务实现类
@@ -108,5 +115,27 @@ public class BlogCommentServiceImpl implements BlogCommentService {
             return blogCommentDao.update(blogComment) > 0;
         }
         return false;
+    }
+
+    @Override
+    public PageResult getCommentPageByBlogIdAndPageNum(Long blogId, int page) {
+        if (page < 1) {
+            return null;
+        }
+        PageHelper.startPage(page, 8);
+        List<BlogComment> commentList = blogCommentDao.getBlogCommentList(blogId);
+        PageInfo<Blog> pageInfo = new PageInfo(commentList);
+        //创建一个返回值对象
+        if (!CollectionUtils.isEmpty(commentList)) {
+            //创建一个返回值对象
+            PageResult pageResult = new PageResult(commentList, (int) pageInfo.getTotal(), pageInfo.getPageSize(), pageInfo.getPageNum());
+            return pageResult;
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean addComment(BlogComment blogComment) {
+        return blogCommentDao.insert(blogComment)>0;
     }
 }

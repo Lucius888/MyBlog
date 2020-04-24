@@ -5,26 +5,22 @@ import com.github.pagehelper.PageInfo;
 import com.lucius.controller.vo.BlogDetailVO;
 import com.lucius.controller.vo.BlogListVO;
 import com.lucius.controller.vo.SimpleBlogListVO;
-import com.lucius.dao.BlogCategoryDao;
-import com.lucius.dao.BlogTagDao;
-import com.lucius.dao.BlogTagRelationDao;
+import com.lucius.dao.*;
 import com.lucius.entity.Blog;
-import com.lucius.dao.BlogDao;
 import com.lucius.entity.BlogCategory;
 import com.lucius.entity.BlogTag;
 import com.lucius.entity.BlogTagRelation;
 import com.lucius.service.BlogService;
+import com.lucius.util.MarkDownUtil;
 import com.lucius.util.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,6 +42,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Resource
     private BlogTagRelationDao blogTagRelationDao;
+
+    @Resource
+    private BlogCommentDao blogCommentDao;
 
 
 
@@ -278,6 +277,12 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogDetailVO getBlogDetail(Long blogId) {
+        Blog blog = blogDao.queryById(blogId);
+        //不为空且状态为已发布
+        BlogDetailVO blogDetailVO = getBlogDetailVO(blog);
+        if (blogDetailVO != null) {
+            return blogDetailVO;
+        }
         return null;
     }
 
@@ -326,5 +331,43 @@ public class BlogServiceImpl implements BlogService {
             }
         }
         return blogListVOS;
+    }
+
+    /**
+     * 方法抽取
+     *
+     * @param blog
+     * @return
+     */
+    private BlogDetailVO getBlogDetailVO(Blog blog) {
+        if (blog != null && blog.getBlogStatus().equals(1)) {
+            //增加浏览量
+            blog.setBlogViews(blog.getBlogViews() + 1);
+            blogDao.update(blog);
+            BlogDetailVO blogDetailVO = new BlogDetailVO();
+            BeanUtils.copyProperties(blog, blogDetailVO);
+            blogDetailVO.setBlogContent(MarkDownUtil.mdToHtml(blogDetailVO.getBlogContent()));
+            BlogCategory blogCategory = blogCategoryDao.queryById(blog.getBlogCategoryId());
+            if (blogCategory == null) {
+                blogCategory = new BlogCategory();
+                blogCategory.setCategoryId(0);
+                blogCategory.setCategoryName("默认分类");
+                blogCategory.setCategoryIcon("/admin/dist/img/category/00.png");
+            }
+            //分类信息
+            blogDetailVO.setBlogCategoryIcon(blogCategory.getCategoryIcon());
+            if (!StringUtils.isEmpty(blog.getBlogTags())) {
+                //标签设置
+                List<String> tags = Arrays.asList(blog.getBlogTags().split(","));
+                blogDetailVO.setBlogTags(tags);
+            }
+            //设置评论数
+            Map params = new HashMap();
+            params.put("blogId", blog.getBlogId());
+            params.put("commentStatus", 1);//过滤审核通过的数据
+            blogDetailVO.setCommentCount(blogCommentDao.getTotalBlogComments(params));
+            return blogDetailVO;
+        }
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import com.lucius.entity.BlogComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (BlogComment)表数据库访问层
@@ -72,11 +73,16 @@ public interface BlogCommentDao {
     int getTotalNum();
 
     /**
-     * 查询所有链接
+     * 查询所有评论
      *
      */
     List<BlogComment> getCommentList();
 
+    /**
+     * 查询当前博客评论
+     *
+     */
+    List<BlogComment> getBlogCommentList(Long blogId);
 
     /**
      * 删除选中链接
@@ -89,4 +95,10 @@ public interface BlogCommentDao {
      *
      */
     int checkDone(Integer[] ids);
+
+    /**
+     * 获取当前博客的全部评论
+     *
+     */
+    int getTotalBlogComments(Map map);
 }
