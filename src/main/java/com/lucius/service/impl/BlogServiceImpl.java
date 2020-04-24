@@ -6,13 +6,11 @@ import com.lucius.controller.vo.BlogDetailVO;
 import com.lucius.controller.vo.BlogListVO;
 import com.lucius.controller.vo.SimpleBlogListVO;
 import com.lucius.dao.*;
-import com.lucius.entity.Blog;
-import com.lucius.entity.BlogCategory;
-import com.lucius.entity.BlogTag;
-import com.lucius.entity.BlogTagRelation;
+import com.lucius.entity.*;
 import com.lucius.service.BlogService;
 import com.lucius.util.MarkDownUtil;
 import com.lucius.util.PageResult;
+import com.lucius.util.PatternUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -288,6 +286,17 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsPageByTag(String tagName, int page) {
+        if (PatternUtil.validKeyword(tagName)) {
+            BlogTag blogTag = blogTagDao.selectByTagName(tagName);
+            if (blogTag != null && page > 0) {
+                PageHelper.startPage(page, 8);
+                List<Blog> blogList = blogDao.getBlogListByTagId(blogTag.getTagId());
+                PageInfo<Blog> pageInfo = new PageInfo(blogList);
+                List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+                PageResult pageResult = new PageResult(blogListVOS, (int) pageInfo.getTotal(), pageInfo.getPageSize(), pageInfo.getPageNum());
+                return pageResult;
+            }
+        }
         return null;
     }
 

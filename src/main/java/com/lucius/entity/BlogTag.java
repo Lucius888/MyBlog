@@ -61,4 +61,13 @@ public class BlogTag implements Serializable {
         this.createTime = createTime;
     }
 
+    @Override
+    public String toString() {
+        return "BlogTag{" +
+                "tagId=" + tagId +
+                ", tagName='" + tagName + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

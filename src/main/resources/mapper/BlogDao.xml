@@ -269,6 +269,13 @@
         where is_deleted=0
     </select>
 
+    <!--根据Tag获取全部博客-->
+    <select id="getBlogListByTagId" resultMap="BlogMap">
+        select *
+        from myblog.blog
+        where blog_id IN (SELECT blog_id FROM myblog.blog_tag_relation WHERE tag_id = #{tagId})
+        AND blog_status =1 AND is_deleted=0
+    </select>
 
     <!--删除选中博客-->
     <update id="deleteBatch">

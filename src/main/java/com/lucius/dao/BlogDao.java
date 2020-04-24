@@ -77,6 +77,11 @@ public interface BlogDao {
      */
     List<Blog> getBlogList();
 
+    /**
+     * 根据Tag获得博客
+     *
+     */
+    List<Blog> getBlogListByTagId(Integer tagId);
 
     /**
      * 删除选中博客
