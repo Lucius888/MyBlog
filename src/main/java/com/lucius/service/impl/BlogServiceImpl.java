@@ -307,6 +307,15 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsPageBySearch(String keyword, int page) {
+        System.out.println(keyword);
+        if (page > 0 && PatternUtil.validKeyword(keyword)) {
+            PageHelper.startPage(page, 8);
+            List<Blog> blogList = blogDao.getBlogListByKeyword(keyword);
+            PageInfo<Blog> pageInfo = new PageInfo(blogList);
+            List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+            PageResult pageResult = new PageResult(blogListVOS, (int) pageInfo.getTotal(), pageInfo.getPageSize(), pageInfo.getPageNum());
+            return pageResult;
+        }
         return null;
     }
 

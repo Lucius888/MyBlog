@@ -84,6 +84,12 @@ public interface BlogDao {
     List<Blog> getBlogListByTagId(Integer tagId);
 
     /**
+     * keyword获取博客 搜索功能
+     *
+     */
+    List<Blog> getBlogListByKeyword(String keyword);
+
+    /**
      * 删除选中博客
      *
      */

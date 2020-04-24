@@ -204,36 +204,36 @@ public class BlogIndexController {
         return "blog/" + theme + "/list";
     }
 
-//
-//    /**
-//     * 搜索列表页
-//     *
-//     * @return
-//     */
-//    @GetMapping({"/search/{keyword}"})
-//    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword) {
-//        return search(request, keyword, 1);
-//    }
-//
-//    /**
-//     * 搜索列表页
-//     *
-//     * @return
-//     */
-//    @GetMapping({"/search/{keyword}/{page}"})
-//    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("page") Integer page) {
-//        PageResult blogPageResult = blogService.getBlogsPageBySearch(keyword, page);
-//        request.setAttribute("blogPageResult", blogPageResult);
-//        request.setAttribute("pageName", "搜索");
-//        request.setAttribute("pageUrl", "search");
-//        request.setAttribute("keyword", keyword);
-//        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
-//        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
-//        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
-//        request.setAttribute("configurations", configService.getAllConfigs());
-//        return "blog/" + theme + "/list";
-//    }
-//
+
+    /**
+     * 搜索列表页
+     *
+     * @return
+     */
+    @GetMapping({"/search/{keyword}"})
+    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword) {
+        return search(request, keyword, 1);
+    }
+
+    /**
+     * 搜索列表页
+     *
+     * @return
+     */
+    @GetMapping({"/search/{keyword}/{page}"})
+    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("page") Integer page) {
+        PageResult blogPageResult = blogService.getBlogsPageBySearch(keyword, page);
+        request.setAttribute("blogPageResult", blogPageResult);
+        request.setAttribute("pageName", "搜索");
+        request.setAttribute("pageUrl", "search");
+        request.setAttribute("keyword", keyword);
+        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("configurations", configService.getAllConfigs());
+        return "blog/" + theme + "/list";
+    }
+
 
 
 //    /**
