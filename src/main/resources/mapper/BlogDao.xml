@@ -308,7 +308,7 @@
         <if test="type!=null and type==1">
             order by blog_id desc
         </if>
-        limit #{limit}
+        limit 5
     </select>
 
 </mapper>
