@@ -18,6 +18,11 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <resultMap extends="BlogMap" id="ResultMapWithBLOBs" type="com.lucius.entity.Blog">
+        <result column="blog_content" jdbcType="LONGVARCHAR" property="blogContent"/>
+    </resultMap>
+
     <!--sql数据标签-->
     <sql id="Base_Column_List">
         blog_id, blog_title, blog_sub_url, blog_cover_image, blog_category_id, blog_category_name,
@@ -309,6 +314,15 @@
             order by blog_id desc
         </if>
         limit 5
+    </select>
+
+    <select id="selectBySubUrl" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from myblog.blog
+        where blog_sub_url = #{subUrl,jdbcType=VARCHAR} and is_deleted = 0 limit 1
     </select>
 
 </mapper>

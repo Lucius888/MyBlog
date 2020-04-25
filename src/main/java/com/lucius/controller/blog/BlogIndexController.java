@@ -234,23 +234,50 @@ public class BlogIndexController {
         return "blog/" + theme + "/list";
     }
 
+    /**
+     * 分类列表页
+     *
+     * @return
+     */
+    @GetMapping({"/category/{categoryName}"})
+    public String category(HttpServletRequest request, @PathVariable("categoryName") String categoryName) {
+        return category(request, categoryName, 1);
+    }
 
+    /**
+     * 分类列表页
+     *
+     * @return
+     */
+    @GetMapping({"/category/{categoryName}/{page}"})
+    public String category(HttpServletRequest request, @PathVariable("categoryName") String categoryName, @PathVariable("page") Integer page) {
+        PageResult blogPageResult = blogService.getBlogsPageByCategory(categoryName, page);
+        request.setAttribute("blogPageResult", blogPageResult);
+        request.setAttribute("pageName", "分类");
+        request.setAttribute("pageUrl", "category");
+        request.setAttribute("keyword", categoryName);
+        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("configurations", configService.getAllConfigs());
+        return "blog/" + theme + "/list";
+    }
 
-//    /**
-//     * 关于页面 以及其他配置了subUrl的文章页
-//     *
-//     * @return
-//     */
-//    @GetMapping({"/{subUrl}"})
-//    public String detail(HttpServletRequest request, @PathVariable("subUrl") String subUrl) {
-//        BlogDetailVO blogDetailVO = blogService.getBlogDetailBySubUrl(subUrl);
-//        if (blogDetailVO != null) {
-//            request.setAttribute("blogDetailVO", blogDetailVO);
-//            request.setAttribute("pageName", subUrl);
-//            request.setAttribute("configurations", configService.getAllConfigs());
-//            return "blog/" + theme + "/detail";
-//        } else {
-//            return "error/error_400";
-//        }
-//    }
+    /**
+     * 关于页面 以及其他配置了subUrl的文章页
+     *
+     * @return
+     */
+    @GetMapping({"/{subUrl}"})
+    public String detail(HttpServletRequest request, @PathVariable("subUrl") String subUrl) {
+        BlogDetailVO blogDetailVO = blogService.getBlogDetailBySubUrl(subUrl);
+        if (blogDetailVO != null) {
+            request.setAttribute("blogDetailVO", blogDetailVO);
+            request.setAttribute("pageName", subUrl);
+            request.setAttribute("configurations", configService.getAllConfigs());
+            return "blog/" + theme + "/detail";
+        } else {
+            return "error/400";
+        }
+    }
 }

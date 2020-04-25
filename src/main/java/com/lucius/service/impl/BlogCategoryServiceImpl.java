@@ -91,4 +91,9 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
     public boolean deleteBatch(Integer[] ids) {
         return this.blogCategoryDao.deleteBatch(ids)>0;
     }
+
+    @Override
+    public List<BlogCategory> getCategoryCountForIndex() {
+        return this.blogCategoryDao.getCategoryCount();
+    }
 }

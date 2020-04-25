@@ -1,6 +1,7 @@
 package com.lucius.dao;
 
 import com.lucius.entity.BlogCategory;
+import com.lucius.entity.BlogTagCount;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -21,6 +22,14 @@ public interface BlogCategoryDao {
      * @return 实例对象
      */
     BlogCategory queryById(Integer categoryId);
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param categoryName 主键
+     * @return 实例对象
+     */
+    BlogCategory queryByCategoryName(String categoryName);
 
     /**
      * 查询指定行数据
@@ -88,4 +97,10 @@ public interface BlogCategoryDao {
      *
      */
     List<BlogCategory> selectByCategoryIds(@Param("categoryIds") List<Integer> categoryIds);
+
+    /**
+     * 为前台需要展示的Tag
+     * 其实这些为了前台数据展示的东西可以使用中台 dto 来进行实现
+     */
+    List<BlogCategory> getCategoryCount();
 }

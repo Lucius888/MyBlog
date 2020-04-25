@@ -301,7 +301,23 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public PageResult getBlogsPageByCategory(String categoryId, int page) {
+    public PageResult getBlogsPageByCategory(String categoryName, int page) {
+        if (PatternUtil.validKeyword(categoryName)) {
+            BlogCategory blogCategory = blogCategoryDao.queryByCategoryName(categoryName);
+            if ("默认分类".equals(categoryName) && blogCategory == null) {
+                blogCategory = new BlogCategory();
+                blogCategory.setCategoryId(0);
+            }
+            if (blogCategory != null && page > 0) {
+                PageHelper.startPage(page, 8);
+                List<Blog> blogList = blogDao.getBlogListByKeyword(categoryName);
+                PageInfo<Blog> pageInfo = new PageInfo(blogList);
+                List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+                PageResult pageResult = new PageResult(blogListVOS, (int) pageInfo.getTotal(), pageInfo.getPageSize(), pageInfo.getPageNum());
+
+                return pageResult;
+            }
+        }
         return null;
     }
 
@@ -321,7 +337,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogDetailVO getBlogDetailBySubUrl(String subUrl) {
+        Blog blog = blogDao.selectBySubUrl(subUrl);
+        //不为空且状态为已发布
+        BlogDetailVO blogDetailVO = getBlogDetailVO(blog);
+        if (blogDetailVO != null) {
+            return blogDetailVO;
+        }
         return null;
+
     }
 
     private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {

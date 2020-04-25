@@ -1,6 +1,8 @@
 package com.lucius.service;
 
 import com.lucius.entity.BlogCategory;
+import com.lucius.entity.BlogTagCount;
+
 import java.util.List;
 
 /**
@@ -69,4 +71,10 @@ public interface BlogCategoryService {
      *
      */
     boolean deleteBatch(Integer[] ids);
+    /**
+     * 前台展示分类
+     *
+     */
+    List<BlogCategory> getCategoryCountForIndex();
+
 }

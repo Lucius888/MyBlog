@@ -127,11 +127,11 @@ public interface BlogService {
     /**
      * 根据分类获取文章列表
      *
-     * @param categoryId
+     * @param categoryName
      * @param page
      * @return
      */
-    PageResult getBlogsPageByCategory(String categoryId, int page);
+    PageResult getBlogsPageByCategory(String categoryName, int page);
 
     /**
      * 根据搜索获取文章列表

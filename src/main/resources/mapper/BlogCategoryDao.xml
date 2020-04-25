@@ -23,6 +23,14 @@
         where category_id = #{categoryId}
     </select>
 
+    <!--查询单个-->
+    <select id="queryByCategoryName" resultMap="BlogCategoryMap">
+        select
+          category_id, category_name, category_icon, category_rank, is_deleted, create_time
+        from myblog.blog_category
+        where category_name = #{categoryName}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BlogCategoryMap">
         select
@@ -123,6 +131,15 @@
                  open="(" separator="," close=")">#{item}
         </foreach>
         AND is_deleted = 0
+    </select>
+
+
+    <select id="getCategoryCount" resultMap="BlogCategoryMap">
+        select *
+        from myblog.blog_category
+        where is_deleted=0
+        order by category_rank desc
+        limit 5
     </select>
 
 </mapper>

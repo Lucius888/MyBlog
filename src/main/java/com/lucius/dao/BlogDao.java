@@ -103,4 +103,6 @@ public interface BlogDao {
      * 通过类型查找文章
      */
     List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
+
+    Blog selectBySubUrl(String subUrl);
 }
