@@ -12,6 +12,7 @@
     <artifactId>myblog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>myblog</name>
+    <packaging>jar</packaging>
     <description>My first Subject</description>
 
     <properties>
@@ -102,6 +103,7 @@
             <version>1.2.12</version>
         </dependency>
 
+
         <!-- commonmark core -->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
@@ -115,7 +117,6 @@
             <version>0.8.0</version>
         </dependency>
 
-
     </dependencies>
 
     <build>
@@ -123,8 +124,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
+
+
     </build>
 
 </project>
